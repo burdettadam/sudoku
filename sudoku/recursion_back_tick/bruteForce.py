@@ -1,7 +1,9 @@
-import numpy as np
-''' takes point in grid(x,y) and value (n) to be validated.
+''' 
+takes point in grid(x,y) and value (n) to be validated.
 returns True or False
 '''
+import numpy as np
+
 grid = [ [1,2,3,  4,5,6,  7,8,9],
          [4,5,0,  7,8,9,  1,2,3],
          [7,8,9,  1,2,3,  4,5,6],
@@ -39,7 +41,9 @@ grid = [ [1,2,0,  4,0,6,  7,8,9],
          [3,4,5,  6,7,8,  9,1,2],
          [6,7,8,  9,1,2,  3,4,5],
          [9,1,2,  3,4,5,  6,7,8]]
+
 def solve():
+    """ Add a doc comment? """
     for row in range(9):
         for col in range(9):
             if grid[row][col] == 0: # not a clue
@@ -50,4 +54,4 @@ def solve():
                         grid[row][col] = 0 # failed attempts return here and back tick,
                 return # basecase,return out of recurssion
     print(np.matrix(grid)) # print winners
-print(solve())
+print(solve()) # solve() returns None so this just prints None

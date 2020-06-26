@@ -1,29 +1,21 @@
-import os
-import sys
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from sudoku.pro_stratigies.Puzzle import Puzzle
-from tests import starts
+from .core.Sudoku import Sudoku
+from tests import starts #Todo: remove this after testing
 import numpy as np
 
 
-def add_single_candidates(puzzle):
-    for block_row_idx in [0,3,6]:
-        for block_col_idx in [0,3,6]: #todo: remove hardcoded value
-            block = puzzle.grid[block_row_idx:block_row_idx + 3, block_col_idx:block_col_idx + 3]
-            block = block.flatten() # hints in block
-            #print("block",block)
-            for r in range(3):
-                for c in range(3):
-                    if puzzle.add_single_candidate(block, (block_row_idx + r, block_col_idx + c), np.array(range(1,9+1))):
-                        return True , puzzle #restart adding single candidates
-    return False , puzzle
-added_candidate = True
-
 def solve(puzzle):
-    puzzle = Puzzle(puzzle)
+    """
+    Given a 9x9 sudoku starting array, attempts to add all single candidates, 
+    restarting after adding one. Once all single candidates are added, narrow
+    search space by removing impossible candidates, then add single candidates again.
+    input: 9x9 np.array() of ints ranging from 0-9, 0 being unsolved, all others being
+    solved incumbents.
+    output: Puzzle object containing 9x9 matrix of incumbents
+    """
+    puzzle = Sudoku(puzzle)
     found_candidate = True
     while(found_candidate):
-        found_candidate, puzzle = add_single_candidates(puzzle)
+        found_candidate = puzzle.track_candidates()
     return puzzle
 
 print(solve(starts.easy))
